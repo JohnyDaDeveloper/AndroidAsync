@@ -6,39 +6,28 @@ Replacement for deprecated AsyncTask. All activities which will execute my new A
 2) When the activity which owns the AsyncWorker is killed, all scheduled AsyncTasks will finish their work in background, but the onPostExecute() won't be called (the onFailure will trigger insted).
 
 ## Using new AsyncTask:
-1) Make your activities which will run AsyncTasks extend AsyncCapableActivity
-
-```java
-public class MainActivity extends AsyncCapableActivity
-```
-
 2) Create custom task extending AsyncTask (similar to the old one)
 
 ```java
-public class ExampleTask extends AsyncTask<String, Long> {
-    public ExampleTask(AsyncWorker asyncWorker) {
-        super(asyncWorker);
-    }
-    
+public class ExampleTask extends AsyncTask<String, Integer, String> {
     @Override
-    public void onPreExecute() {
-        //Stuff you want to do on the main thread before doInBackground();
+    protected void onPreExecute() {
+        
     }
 
     @Override
-    public Long doInBackground(String inputs) {
-        //Stuff you want to do in background
+    protected String doInBackground(String s) throws Exception {
         return null;
     }
 
     @Override
-    public void onPostExecute(Long aLong) {
-        //Stuff you want to do on the main thread with result of doInBackground();
+    protected void onPostExecute(String s) {
+        
     }
 
     @Override
-    public void onFailure(Exception e) {
-        //Handle exceptions
+    protected void onBackgroundError(Exception e) {
+        
     }
 }
 ```
@@ -46,14 +35,14 @@ public class ExampleTask extends AsyncTask<String, Long> {
 3) Execute your task
 
 ```java
-public class MainActivity extends AsyncCapableActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ExampleTask exampleTask = new ExampleTask(getAsyncWorker());
+        ExampleTask exampleTask = new ExampleTask();
         exampleTask.execute("Something");
     }
 }
