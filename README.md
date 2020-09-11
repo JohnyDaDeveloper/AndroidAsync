@@ -1,5 +1,5 @@
 # AndroidAsync
-Replacement for deprecated AsyncTask. All activities which will execute my new AsyncTasks must extend AsyncCapableActivity.
+Replacement for deprecated AsyncTask
 
 ## Using new AsyncTask:
 2) Create custom task extending AsyncTask (similar to the old one)
