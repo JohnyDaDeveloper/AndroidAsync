@@ -2,7 +2,7 @@
 Replacement for deprecated AsyncTask
 
 ## Using new AsyncTask:
-2) Create custom task extending AsyncTask (similar to the old one)
+1) Create custom task extending AsyncTask (similar to the old one)
 
 ```java
 public class ExampleTask extends AsyncTask<String, Integer, String> {
@@ -28,7 +28,7 @@ public class ExampleTask extends AsyncTask<String, Integer, String> {
 }
 ```
 
-3) Execute your task
+2) Execute your task
 
 ```java
 public class MainActivity extends AppCompatActivity {
@@ -41,5 +41,46 @@ public class MainActivity extends AppCompatActivity {
         ExampleTask exampleTask = new ExampleTask();
         exampleTask.execute("Something");
     }
+}
+```
+
+3) Implement cancel() (Optional)
+```java
+public class ExampleTask extends AsyncTask<String, Integer, String> {
+    ...
+
+    @Override
+    protected String doInBackground(String s) throws Exception {
+        while (true) {
+            if (isCancelled()) {
+                onCancelled(); //Triggers OnCancelledListener, which can be set with setOnCancelledListener()
+                break();
+            }
+        }
+    
+        return null;
+    }
+    
+    ...
+}
+```
+
+4) Implement postProgress() (Optional)
+```java
+public class ExampleTask extends AsyncTask<String, Integer, String> {
+    ...
+
+    @Override
+    protected String doInBackground(String s) throws Exception {
+        Integer progress = 0;
+        while (true) {
+            progress++;
+            postProgress(progress);  //Triggers OnProgressListener, which can be set with setOnProgressListener()
+        }
+    
+        return null;
+    }
+    
+    ...
 }
 ```
