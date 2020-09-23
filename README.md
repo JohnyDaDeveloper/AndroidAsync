@@ -1,60 +1,86 @@
 # AndroidAsync
-Replacement for deprecated AsyncTask. All activities which will execute my new AsyncTasks must extend AsyncCapableActivity.
-
-## Disadvantages:
-1) You need instance of Activity to run new AsyncTasks.
-2) When the activity which owns the AsyncWorker is killed, all scheduled AsyncTasks will finish their work in background, but the onPostExecute() won't be called (the onFailure will trigger insted).
+Replacement for deprecated AsyncTask
 
 ## Using new AsyncTask:
-1) Make your activities which will run AsyncTasks extend AsyncCapableActivity
+1) Create custom task extending AsyncTask (similar to the old one)
 
 ```java
-public class MainActivity extends AsyncCapableActivity
-```
-
-2) Create custom task extending AsyncTask (similar to the old one)
-
-```java
-public class ExampleTask extends AsyncTask<String, Long> {
-    public ExampleTask(AsyncWorker asyncWorker) {
-        super(asyncWorker);
-    }
-    
+public class ExampleTask extends AsyncTask<String, Integer, String> {
     @Override
-    public void onPreExecute() {
-        //Stuff you want to do on the main thread before doInBackground();
+    protected void onPreExecute() {
+        
     }
 
     @Override
-    public Long doInBackground(String inputs) {
-        //Stuff you want to do in background
+    protected String doInBackground(String s) throws Exception {
         return null;
     }
 
     @Override
-    public void onPostExecute(Long aLong) {
-        //Stuff you want to do on the main thread with result of doInBackground();
+    protected void onPostExecute(String s) {
+        
     }
 
     @Override
-    public void onFailure(Exception e) {
-        //Handle exceptions
+    protected void onBackgroundError(Exception e) {
+        
     }
 }
 ```
 
-3) Execute your task
+2) Execute your task
 
 ```java
-public class MainActivity extends AsyncCapableActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ExampleTask exampleTask = new ExampleTask(getAsyncWorker());
+        ExampleTask exampleTask = new ExampleTask();
         exampleTask.execute("Something");
     }
+}
+```
+
+3) Implement cancel() (Optional)
+```java
+public class ExampleTask extends AsyncTask<String, Integer, String> {
+    ...
+
+    @Override
+    protected String doInBackground(String s) throws Exception {
+        while (true) {
+            if (isCancelled()) {
+                onCancelled(); //Triggers OnCancelledListener, which can be set with setOnCancelledListener()
+                break();
+            }
+        }
+    
+        return null;
+    }
+    
+    ...
+}
+```
+
+4) Implement postProgress() (Optional)
+```java
+public class ExampleTask extends AsyncTask<String, Integer, String> {
+    ...
+
+    @Override
+    protected String doInBackground(String s) throws Exception {
+        Integer progress = 0;
+        while (true) {
+            progress++;
+            postProgress(progress);  //Triggers OnProgressListener, which can be set with setOnProgressListener()
+        }
+    
+        return null;
+    }
+    
+    ...
 }
 ```
