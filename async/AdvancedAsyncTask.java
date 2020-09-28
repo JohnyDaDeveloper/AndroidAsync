@@ -33,11 +33,19 @@ public abstract class AdvancedAsyncTask<INPUT, PROGRESS, OUTPUT> {
     }
 
     public OUTPUT get() throws Exception {
-        return outputFuture.get();
+        if (outputFuture == null) {
+            throw new TaskNotExecutedException();
+        } else {
+            return outputFuture.get();
+        }
     }
 
     public OUTPUT get(long timeout, TimeUnit timeUnit) throws Exception {
-        return outputFuture.get(timeout, timeUnit);
+        if (outputFuture == null) {
+            throw new TaskNotExecutedException();
+        } else {
+            return outputFuture.get(timeout, timeUnit);
+        }
     }
 
     /**
