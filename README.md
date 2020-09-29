@@ -1,5 +1,5 @@
 # AndroidAsync
-Replacement for deprecated AsyncTask
+Replacement for deprecated AsyncTask. This repository contains one simple implementation with just basic functionality (AsyncTask) and one which is slowly being extended to fully replace the original AsyncTask (AdvancedAsyncTask).
 
 ## Using new AsyncTask:
 1) Create custom task extending AsyncTask (similar to the old one)
