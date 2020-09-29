@@ -3,7 +3,7 @@ Replacement for deprecated AsyncTask. This repository contains one simple implem
 
 ## Adding this to my project
 1) Create/Open Android Studio project
-2) Drop the //async// folder to your package file in the java folder
+2) Drop the ***async*** folder to your package file in the java folder
 
 ## Using new AsyncTask:
 1) Create custom task extending AsyncTask (similar to the old one)
