@@ -117,7 +117,9 @@ public abstract class AdvancedAsyncTask<INPUT, PROGRESS, OUTPUT> {
      * @param e Exception
      * @see #doInBackground(Object)
      */
-    protected abstract void onBackgroundError(Exception e);
+    protected void onBackgroundError(Exception e) {
+
+    }
 
     private OnProgressListener<PROGRESS> onProgressListener;
     public interface OnProgressListener<PROGRESS> {
