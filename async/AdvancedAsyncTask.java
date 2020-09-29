@@ -16,7 +16,7 @@ public abstract class AdvancedAsyncTask<INPUT, PROGRESS, OUTPUT> {
      * Starts is all
      * @param input Data you want to work with in the background
      */
-    public void execute(final INPUT input) {
+    public AdvancedAsyncTask<INPUT, PROGRESS, OUTPUT> execute(final INPUT input) {
         onPreExecute();
 
         ExecutorService executorService = AsyncWorker.getInstance().getExecutorService();
@@ -30,6 +30,8 @@ public abstract class AdvancedAsyncTask<INPUT, PROGRESS, OUTPUT> {
                 throw e;
             }
         });
+
+        return this;
     }
 
     public OUTPUT get() throws Exception {
@@ -89,7 +91,9 @@ public abstract class AdvancedAsyncTask<INPUT, PROGRESS, OUTPUT> {
     /**
      * Work which you want to be done on UI thread before {@link #doInBackground(Object)}
      */
-    protected abstract void onPreExecute();
+    protected void onPreExecute() {
+
+    }
 
     /**
      * Work on background
@@ -104,7 +108,9 @@ public abstract class AdvancedAsyncTask<INPUT, PROGRESS, OUTPUT> {
      * Work which you want to be done on UI thread after {@link #doInBackground(Object)}
      * @param output    Output data from {@link #doInBackground(Object)}
      */
-    protected abstract void onPostExecute(OUTPUT output);
+    protected void onPostExecute(OUTPUT output) {
+
+    }
 
     /**
      * Triggered on UI thread if any uncought exception occurred while working in background
