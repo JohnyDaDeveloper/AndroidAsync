@@ -8,22 +8,24 @@ Replacement for deprecated AsyncTask
 public class ExampleTask extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPreExecute() {
-        
+        //Do something before doInBackground() on UI thread
     }
 
     @Override
     protected String doInBackground(String s) throws Exception {
+        //Does some work on background thread
         return null;
     }
 
     @Override
     protected void onPostExecute(String s) {
-        
+        //Do something after doInBackground() on UI thread
     }
 
     @Override
     protected void onBackgroundError(Exception e) {
-        
+        //Handle any exception that occured while running doInBackground()
+        //This is also executed on the UI thread
     }
 }
 ```
