@@ -1,4 +1,4 @@
-package cz.barda.jidelna.async;
+package cz.barda.jidelnacz2.async;
 
 import android.os.Handler;
 import android.os.Looper;

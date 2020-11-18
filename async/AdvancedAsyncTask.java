@@ -13,6 +13,13 @@ public abstract class AdvancedAsyncTask<INPUT, PROGRESS, OUTPUT> {
     }
 
     /**
+     * @see #execute(Object)
+     */
+    public AdvancedAsyncTask<INPUT, PROGRESS, OUTPUT> execute() {
+        return execute(null);
+    }
+
+    /**
      * Starts is all
      * @param input Data you want to work with in the background
      */
@@ -49,17 +56,22 @@ public abstract class AdvancedAsyncTask<INPUT, PROGRESS, OUTPUT> {
             return outputFuture.get(timeout, timeUnit);
         }
     }
-
     /**
      * Call to publish progress from background
      * @param progress  Progress made
      */
     protected void publishProgress(final PROGRESS progress) {
         AsyncWorker.getInstance().getHandler().post(() -> {
+            onProgress(progress);
+
             if (onProgressListener != null) {
                 onProgressListener.onProgress(progress);
             }
         });
+    }
+
+    protected void onProgress(final PROGRESS progress) {
+
     }
 
     /**

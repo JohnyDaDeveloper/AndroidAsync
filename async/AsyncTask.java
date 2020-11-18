@@ -10,6 +10,13 @@ public abstract class AsyncTask<INPUT, PROGRESS, OUTPUT> {
     }
 
     /**
+     * @see #execute(Object)
+     */
+    public AsyncTask<INPUT, PROGRESS, OUTPUT> execute() {
+        return execute(null);
+    }
+
+    /**
      * Starts is all
      * @param input Data you want to work with in the background
      */
@@ -37,10 +44,16 @@ public abstract class AsyncTask<INPUT, PROGRESS, OUTPUT> {
      */
     protected void publishProgress(final PROGRESS progress) {
         AsyncWorker.getInstance().getHandler().post(() -> {
+            onProgress(progress);
+
             if (onProgressListener != null) {
                 onProgressListener.onProgress(progress);
             }
         });
+    }
+
+    protected void onProgress(final PROGRESS progress) {
+
     }
 
     /**
