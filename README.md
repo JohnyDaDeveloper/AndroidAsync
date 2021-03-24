@@ -60,7 +60,7 @@ public class ExampleTask extends AsyncTask<String, Integer, String> {
         while (true) {
             if (isCancelled()) {
                 onCancelled(); //Triggers OnCancelledListener, which can be set with setOnCancelledListener()
-                break();
+                break;
             }
         }
     
